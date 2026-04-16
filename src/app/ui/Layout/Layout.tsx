@@ -11,6 +11,7 @@ export const Layout = () => {
         size="full"
         centered={false}
         padded={false}
+        // TODO: move styles to css module
         style={{ marginLeft: '64px', minHeight: '100dvh', width: 'calc(100% - 64px)' }}
       >
         <Outlet />
