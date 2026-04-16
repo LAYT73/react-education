@@ -1,6 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
 :root {
+  /* Breakpoint variables */
+  --breakpoint-sm: 320px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1440px;
+
+  /* Size variables */
+  --size-xl: 64px;
+  --size-lg: 32px;
+  --size-md: 16px;
+  --size-sm: 8px;
+
+  --rounded: 4px;
+
+  /* Font variables */
+  --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-2xl: 70px;
+  --font-xl: 40px;
+  --font-lg: 32px;
+  --font-md: 28px;
+  --font-sm: 24px;
+  --font-xs: 22px;
+  --font-2xs: 18px;
+  --font-3xs: 16px;
+  --font-4xs: 14px;
+  --font-5xs: 13px;
+
+  /* Color variables */
+  --color-primary: #0ec261;
+  --color-dark: #121212;
+  --color-white: #ffffff;
+  --color-light: #eeeeee;
+  --color-gray: #999999;
+  --color-background: #151b1f;
+  --color-background-dark: #111518;
+
+  /* Gradient variables */
+  --gradient-primary: linear-gradient(90deg, #0ec261 0%, #039f67 100%);
+  --gradient-green: linear-gradient(90deg, #13493f 0%, #0c7b1b 100%);
+  --gradient-cian: linear-gradient(90deg, #132949 0%, #0c7b67 100%);
+  --gradient-orange: linear-gradient(90deg, #493013 0%, #7b0c3b 100%);
+  --gradient-purple: linear-gradient(90deg, #281349 0%, #720c7b 100%);
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--color-white);
 }
