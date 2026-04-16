@@ -21,13 +21,14 @@
   --font-2xl: 70px;
   --font-xl: 40px;
   --font-lg: 32px;
-  --font-md: 28px;
-  --font-sm: 24px;
-  --font-xs: 22px;
-  --font-2xs: 18px;
-  --font-3xs: 16px;
-  --font-4xs: 14px;
-  --font-5xs: 13px;
+  --font-md: 30px;
+  --font-sm: 28px;
+  --font-xs: 24px;
+  --font-2xs: 22px;
+  --font-3xs: 18px;
+  --font-4xs: 16px;
+  --font-5xs: 14px;
+  --font-6xs: 13px;
 
   /* Color variables */
   --color-primary: #0ec261;

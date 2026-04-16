@@ -1,0 +1,88 @@
+.button {
+  /* Размеры */
+  height: 48px;
+
+  /* Шрифт */
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-white);
+
+  /* Отступы */
+  padding: 0 24px;
+
+  /* Стилизация */
+  border: none;
+  cursor: pointer;
+
+  /* Анимация */
+  transition:
+    opacity 0.2s ease,
+    transform 0.1s ease;
+
+  /* Центрирование текста */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Тень для объема */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ширина: 164px */
+.small {
+  width: 164px;
+  border-radius: var(--rounded-md);
+}
+
+/* Ширина: 250px */
+.large {
+  width: 250px;
+  border-radius: var(--rounded-lg);
+}
+
+/* Градиенты */
+.primary {
+  background: var(--gradient-primary);
+}
+
+.green {
+  background: var(--gradient-green);
+}
+
+.cian {
+  background: var(--gradient-cian);
+}
+
+.orange {
+  background: var(--gradient-orange);
+}
+
+.purple {
+  background: var(--gradient-purple);
+}
+
+/* Hover эффект */
+.button:hover:not(.disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Active эффект */
+.button:active:not(.disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Disabled состояние */
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Focus состояние для доступности */
+.button:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 2px;
+}

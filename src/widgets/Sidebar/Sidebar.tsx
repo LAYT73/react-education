@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 
+import { Flex } from '@/shared/ui'
 import MenuBtnIcon from '@/shared/assets/menu-btn.svg?react'
 import MenuBtnMobileIcon from '@/shared/assets/menu-btn-mobile.svg?react'
 import CloseIcon from '@/shared/assets/x-icon.svg?react'
@@ -35,8 +36,8 @@ export const Sidebar = () => {
       aria-label="Sidebar navigation"
       onClick={handleClose}
     >
-      <div className={styles.shell} onClick={(event) => event.stopPropagation()}>
-        <div className={styles.rail}>
+      <Flex className={styles.shell} onClick={(event) => event.stopPropagation()}>
+        <Flex className={styles.rail} direction="column" align="center" justify="between">
           <button
             type="button"
             className={styles.toggleButton}
@@ -56,10 +57,10 @@ export const Sidebar = () => {
           <button type="button" className={styles.langButton} aria-label="English">
             Eng
           </button>
-        </div>
+        </Flex>
 
-        <div className={styles.panel} aria-hidden={!isOpen}>
-          <div className={styles.content}>
+        <Flex className={styles.panel} align="center" aria-hidden={!isOpen}>
+          <Flex className={styles.content} align="center">
             <nav className={styles.navigation} aria-label="Main menu">
               {navigationItems.map((item) => (
                 <a key={item} className={styles.link} href="#">
@@ -67,9 +68,9 @@ export const Sidebar = () => {
                 </a>
               ))}
             </nav>
-          </div>
-        </div>
-      </div>
+          </Flex>
+        </Flex>
+      </Flex>
     </aside>
   )
 }
