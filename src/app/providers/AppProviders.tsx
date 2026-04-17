@@ -6,5 +6,5 @@ interface AppProvidersProps {
 }
 
 export function AppProviders({ children }: AppProvidersProps) {
-  return <BrowserRouter>{children}</BrowserRouter>
+  return <BrowserRouter basename="/react-education">{children}</BrowserRouter>
 }
