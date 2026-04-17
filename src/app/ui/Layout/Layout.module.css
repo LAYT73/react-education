@@ -1,8 +1,8 @@
 /* 64px - ширина Sidebar */
 .container {
-  margin-left: 64px;
+  margin-left: var(--size-xl);
   min-height: 100dvh;
-  width: calc(100% - 64px);
+  width: calc(100% - var(--size-xl));
 }
 
 @media (max-width: 767px) {
