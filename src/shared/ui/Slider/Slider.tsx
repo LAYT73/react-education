@@ -3,9 +3,22 @@ import { SLIDER_SLIDES } from '@/shared/consts'
 import LeftArrowIcon from '@/shared/assets/icons/slider/slider-left-arrow.svg?react'
 import RightArrowIcon from '@/shared/assets/icons/slider/slider-right-arrow.svg?react'
 import styles from './Slider.module.css'
+import { useState } from 'react'
 
 export const Slider = () => {
-  const currentSlide = SLIDER_SLIDES[0]
+  const [currentSlide, setCurrentSlide] = useState(SLIDER_SLIDES[0])
+
+  const handleNextSlide = () => {
+    const currentIndex = SLIDER_SLIDES.findIndex((slide) => slide.id === currentSlide.id)
+    const nextIndex = (currentIndex + 1) % SLIDER_SLIDES.length
+    setCurrentSlide(SLIDER_SLIDES[nextIndex])
+  }
+
+  const handlePrevSlide = () => {
+    const currentIndex = SLIDER_SLIDES.findIndex((slide) => slide.id === currentSlide.id)
+    const prevIndex = (currentIndex - 1 + SLIDER_SLIDES.length) % SLIDER_SLIDES.length
+    setCurrentSlide(SLIDER_SLIDES[prevIndex])
+  }
 
   return (
     <div className={styles.slider}>
@@ -30,11 +43,19 @@ export const Slider = () => {
         </div>
       </div>
 
-      <button className={styles.arrowButton} aria-label="Previous slide">
+      <button
+        className={styles.arrowButton}
+        aria-label="Previous slide"
+        onClick={handlePrevSlide}
+      >
         <LeftArrowIcon className={styles.arrowIcon} />
       </button>
 
-      <button className={styles.arrowButton} aria-label="Next slide">
+      <button
+        className={styles.arrowButton}
+        aria-label="Next slide"
+        onClick={handleNextSlide}
+      >
         <RightArrowIcon className={styles.arrowIcon} />
       </button>
 
@@ -44,7 +65,11 @@ export const Slider = () => {
             key={slide.id}
             className={styles.indicator}
             aria-label={`Go to slide ${index + 1}`}
-            aria-current={index === 0 ? 'true' : 'false'}
+            aria-current={
+              index === SLIDER_SLIDES.findIndex((s) => s.id === currentSlide.id)
+                ? 'true'
+                : 'false'
+            }
           />
         ))}
       </div>

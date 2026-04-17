@@ -3,10 +3,16 @@ import { motion } from 'motion/react'
 import styles from './HomePage.module.css'
 import { usePageAnimations } from '@/shared/libs'
 import { Footer, Header } from '@/widgets'
+import { useNavigate } from 'react-router-dom'
 
 export const HomePage = () => {
+  const navigate = useNavigate()
   const { fadeUp, fadeDown, staggerParent, pageInitial, pageTransition } =
     usePageAnimations()
+
+  const handleBookingClick = () => {
+    navigate('/order/first-step')
+  }
 
   return (
     <motion.div
@@ -42,7 +48,12 @@ export const HomePage = () => {
               Поминутная аренда авто твоего города
             </motion.p>
             <motion.div transition={{ duration: 0.55, delay: 1.3 }} variants={fadeUp}>
-              <Button className={styles.button} variant="primary" width="large">
+              <Button
+                className={styles.button}
+                variant="primary"
+                width="large"
+                onClick={handleBookingClick}
+              >
                 Забронировать
               </Button>
             </motion.div>
