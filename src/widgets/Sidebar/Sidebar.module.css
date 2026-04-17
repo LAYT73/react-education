@@ -152,14 +152,14 @@
   fill: var(--color-primary);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1439px) {
   .content {
-    width: 53.7vw;
+    width: 60vw;
     padding-left: var(--size-lg);
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .content {
     width: 100vw;
   }

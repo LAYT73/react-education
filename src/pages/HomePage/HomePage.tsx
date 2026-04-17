@@ -1,4 +1,4 @@
-import { Button, Flex } from '@/shared/ui'
+import { Button, Flex, Slider } from '@/shared/ui'
 import { motion } from 'motion/react'
 import styles from './HomePage.module.css'
 import { usePageAnimations } from '@/shared/libs'
@@ -55,6 +55,10 @@ export const HomePage = () => {
             </a>
           </Flex>
         </motion.div>
+
+        <div className={styles.sliderSection}>
+          <Slider />
+        </div>
       </Flex>
     </motion.div>
   )

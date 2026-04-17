@@ -10,6 +10,12 @@
   flex-direction: column;
 }
 
+.sliderSection {
+  flex: 1;
+  width: 52.5vw;
+  height: 100dvh;
+}
+
 .content {
   margin-top: 20.2vh;
 }
@@ -53,4 +59,25 @@
 
 .footerLink:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 1439px) {
+  .sliderSection {
+    width: 40vw;
+  }
+
+  .main {
+    width: 60vw;
+    padding: var(--size-lg);
+  }
+}
+
+@media (max-width: 1023px) {
+  .sliderSection {
+    display: none;
+  }
+
+  .main {
+    width: 100%;
+  }
 }
