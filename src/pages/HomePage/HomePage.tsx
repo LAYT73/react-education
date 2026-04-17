@@ -1,42 +1,19 @@
 import { Button, Flex } from '@/shared/ui'
-import { motion, useReducedMotion } from 'motion/react'
+import { motion } from 'motion/react'
 import styles from './HomePage.module.css'
-import GeoIcon from '@/shared/assets/location-icon.svg?react'
+import { usePageAnimations } from '@/shared/libs'
+import { Header } from '@/widgets'
 
 export const HomePage = () => {
-  const shouldReduceMotion = useReducedMotion()
-
-  const fadeUp = {
-    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 18 },
-    visible: {
-      opacity: 1,
-      y: 0,
-    },
-  }
-
-  const fadeDown = {
-    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : -18 },
-    visible: {
-      opacity: 1,
-      y: 0,
-    },
-  }
-
-  const staggerParent = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: shouldReduceMotion ? 0 : 0.11,
-      },
-    },
-  }
+  const { fadeUp, fadeDown, staggerParent, pageInitial, pageTransition } =
+    usePageAnimations()
 
   return (
     <motion.div
       className={styles.page}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.45, ease: 'easeOut' }}
+      initial={pageInitial.hidden}
+      animate={pageInitial.visible}
+      transition={pageTransition}
     >
       <Flex className={styles.wrapper}>
         <motion.div
@@ -46,13 +23,7 @@ export const HomePage = () => {
           animate="visible"
         >
           <motion.div variants={fadeDown} transition={{ duration: 0.35 }}>
-            <Flex justify="between" align="center" as="header">
-              <h2 className={styles.logo}>Need for drive</h2>
-              <Flex gap="sm" align="center">
-                <GeoIcon className={styles.geoIcon} />
-                <span className={styles.geoText}>Ульяновск</span>
-              </Flex>
-            </Flex>
+            <Header />
           </motion.div>
 
           <Flex direction="column" justify="center" className={styles.content}>

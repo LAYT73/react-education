@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react'
 
 import { Flex } from '@/shared/ui'
 
-import TelegramIcon from '@/shared/assets/telegram.svg?react'
-import FacebookIcon from '@/shared/assets/facebook.svg?react'
-import InstagramIcon from '@/shared/assets/instagram.svg?react'
+import TelegramIcon from '@/shared/assets/icons/telegram.svg?react'
+import FacebookIcon from '@/shared/assets/icons/facebook.svg?react'
+import InstagramIcon from '@/shared/assets/icons/instagram.svg?react'
 
 import styles from './Sidebar.module.css'
 import { BurgerIcon } from './components/BurgerIcon'

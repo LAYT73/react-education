@@ -1,0 +1,6 @@
+/* 64px - ширина Sidebar */
+.container {
+  margin-left: 64px;
+  min-height: 100dvh;
+  width: calc(100% - 64px);
+}
