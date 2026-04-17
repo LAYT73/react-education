@@ -55,10 +55,11 @@
   color: var(--color-dark);
   font-size: var(--font-6xs);
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .footerLink:hover {
-  text-decoration: underline;
+  color: var(--color-primary);
 }
 
 @media (max-width: 1439px) {

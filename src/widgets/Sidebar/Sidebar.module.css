@@ -23,7 +23,7 @@
 
 .rail {
   flex: 0 0 var(--size-xl);
-  padding-block: var(--size-lg);
+  padding-block: var(--size-lg) var(--size-md);
   background-color: var(--color-background);
 }
 
@@ -58,10 +58,24 @@
 }
 
 .toggleButton:focus-visible,
-.langButton:focus-visible,
 .link:focus-visible {
   outline: 1px solid var(--color-primary);
   outline-offset: 0px;
+}
+
+.langButton:focus-visible {
+  outline: 1px solid var(--color-white);
+  outline-offset: 0px;
+}
+
+.langButton:hover {
+  outline: 1px solid var(--color-white);
+  color: var(--color-white);
+}
+
+.langButton:active {
+  outline: 1px solid var(--color-white);
+  color: var(--color-primary);
 }
 
 .icon {
@@ -79,16 +93,21 @@
 }
 
 .langButton {
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
   position: relative;
   z-index: 10;
   padding: 0;
   border: 0;
+  outline: 1px solid transparent;
   background: transparent;
   color: var(--color-primary);
   font-size: 13px;
   font-weight: 700;
   line-height: 1;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .panel {

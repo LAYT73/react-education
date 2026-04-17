@@ -38,7 +38,7 @@ export function Button({
         className,
       )}
     >
-      {children}
+      <span className={styles.content}>{children}</span>
     </button>
   )
 }
