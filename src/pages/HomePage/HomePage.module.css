@@ -1,5 +1,6 @@
 .wrapper {
   min-height: 100dvh;
+  overflow-x: hidden;
 }
 
 .main {
@@ -41,27 +42,6 @@
   margin-top: 60px;
 }
 
-.footer {
-  margin-top: auto;
-}
-
-.footerText {
-  font-size: var(--font-6xs);
-  color: var(--color-gray);
-  font-weight: 400;
-}
-
-.footerLink {
-  color: var(--color-dark);
-  font-size: var(--font-6xs);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.footerLink:hover {
-  color: var(--color-primary);
-}
-
 @media (max-width: 1439px) {
   .sliderSection {
     width: 40vw;
@@ -80,5 +60,31 @@
 
   .main {
     width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .main {
+    padding: 0;
+  }
+
+  .content {
+    margin-top: var(--size-md);
+    padding: var(--size-md);
+  }
+
+  .title {
+    font-size: var(--font-lg);
+  }
+
+  .subtitle {
+    font-size: var(--font-3xs);
+  }
+
+  .button {
+    width: 100vw;
+    transform: translateX(-16px);
+    margin-top: var(--size-lg);
+    border-radius: 0;
   }
 }

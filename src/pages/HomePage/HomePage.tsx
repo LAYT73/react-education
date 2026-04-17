@@ -2,7 +2,7 @@ import { Button, Flex, Slider } from '@/shared/ui'
 import { motion } from 'motion/react'
 import styles from './HomePage.module.css'
 import { usePageAnimations } from '@/shared/libs'
-import { Header } from '@/widgets'
+import { Footer, Header } from '@/widgets'
 
 export const HomePage = () => {
   const { fadeUp, fadeDown, staggerParent, pageInitial, pageTransition } =
@@ -48,12 +48,7 @@ export const HomePage = () => {
             </motion.div>
           </Flex>
 
-          <Flex as="footer" align="center" justify="between" className={styles.footer}>
-            <span className={styles.footerText}>© 2016-2019 «Need for drive»</span>
-            <a href="tel:84952342244" className={styles.footerLink}>
-              8 (495) 234-22-44
-            </a>
-          </Flex>
+          <Footer />
         </motion.div>
 
         <div className={styles.sliderSection}>
