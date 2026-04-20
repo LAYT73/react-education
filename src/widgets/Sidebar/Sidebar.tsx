@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 
-import { Flex } from '@/shared/ui'
+import { Button, Flex } from '@/shared/ui'
 
 import TelegramIcon from '@/shared/assets/icons/telegram.svg?react'
 import FacebookIcon from '@/shared/assets/icons/facebook.svg?react'
@@ -40,18 +40,21 @@ export const Sidebar = () => {
     >
       <Flex className={styles.shell} onClick={(event) => event.stopPropagation()}>
         <Flex className={styles.rail} direction="column" align="center" justify="between">
-          <button
-            type="button"
+          <Button
             className={styles.toggleButton}
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
             onClick={handleToggle}
           >
             <BurgerIcon className={styles.icon} />
-          </button>
+          </Button>
 
-          <button type="button" className={styles.langButton} aria-label="English">
+          <Button
+            className={styles.langButton}
+            textClassName={styles.langButtonText}
+            aria-label="English"
+          >
             Eng
-          </button>
+          </Button>
         </Flex>
 
         <Flex className={styles.panel} align="center" aria-hidden={!isOpen}>

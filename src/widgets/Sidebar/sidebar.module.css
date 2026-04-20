@@ -70,11 +70,17 @@
 
 .langButton:hover {
   outline: 1px solid var(--color-white);
+}
+
+.langButton:hover .langButtonText {
   color: var(--color-white);
 }
 
 .langButton:active {
   outline: 1px solid var(--color-white);
+}
+
+.langButton:active .langButtonText {
   color: var(--color-primary);
 }
 
@@ -103,6 +109,10 @@
   outline: 1px solid transparent;
   border-color: transparent;
   background: transparent;
+  transition: all 0.2s ease;
+}
+
+.langButtonText {
   color: var(--color-primary);
   font-size: 13px;
   font-weight: 700;

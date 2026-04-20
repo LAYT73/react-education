@@ -7,11 +7,12 @@ type ButtonWidth = 'small' | 'large'
 interface ButtonProps {
   variant?: ButtonVariant
   width?: ButtonWidth
-  children: React.ReactNode
+  children?: React.ReactNode
   onClick?: () => void
   disabled?: boolean
   type?: 'button' | 'submit' | 'reset'
   className?: string
+  textClassName?: string
 }
 
 export function Button({
@@ -22,6 +23,7 @@ export function Button({
   disabled = false,
   type = 'button',
   className,
+  textClassName,
 }: ButtonProps) {
   return (
     <button
@@ -38,7 +40,7 @@ export function Button({
         className,
       )}
     >
-      <span className={styles.content}>{children}</span>
+      <span className={clsx(styles.content, textClassName)}>{children}</span>
     </button>
   )
 }

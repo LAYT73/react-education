@@ -43,21 +43,21 @@ export const Slider = () => {
         </div>
       </div>
 
-      <button
+      <Button
         className={styles.arrowButton}
         aria-label="Previous slide"
         onClick={handlePrevSlide}
       >
         <LeftArrowIcon className={styles.arrowIcon} />
-      </button>
+      </Button>
 
-      <button
+      <Button
         className={styles.arrowButton}
         aria-label="Next slide"
         onClick={handleNextSlide}
       >
         <RightArrowIcon className={styles.arrowIcon} />
-      </button>
+      </Button>
 
       <div className={styles.indicators}>
         {SLIDER_SLIDES.map((slide, index) => (
