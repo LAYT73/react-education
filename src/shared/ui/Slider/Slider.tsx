@@ -28,7 +28,7 @@ export const Slider = () => {
   }
 
   return (
-    <div className={styles.slider}>
+    <div className={styles.slider} data-slide-variant={currentSlide.buttonVariant}>
       <div className={styles.track}>
         <AnimatePresence initial={false} mode="sync">
           <motion.div

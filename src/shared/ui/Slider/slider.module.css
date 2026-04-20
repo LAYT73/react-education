@@ -4,6 +4,23 @@
   height: 100%;
   overflow: hidden;
   background: var(--color-background);
+  --arrow-hover-bg: rgb(14 194 98 / 20%);
+}
+
+.slider[data-slide-variant='green'] {
+  --arrow-hover-bg: rgb(14 194 98 / 20%);
+}
+
+.slider[data-slide-variant='cian'] {
+  --arrow-hover-bg: rgba(29, 167, 160, 0.2);
+}
+
+.slider[data-slide-variant='orange'] {
+  --arrow-hover-bg: rgba(194, 59, 25, 0.2);
+}
+
+.slider[data-slide-variant='purple'] {
+  --arrow-hover-bg: rgba(58, 23, 114, 0.2);
 }
 
 .track {
@@ -74,7 +91,7 @@
 }
 
 .arrowButton:hover {
-  background-color: rgba(14, 194, 98, 0.2);
+  background-color: var(--arrow-hover-bg);
 }
 
 .arrowButton:first-of-type {
