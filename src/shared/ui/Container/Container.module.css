@@ -1,0 +1,41 @@
+.container {
+  width: 100%;
+}
+
+.centered {
+  margin-inline: auto;
+}
+
+.padded {
+  padding-inline: var(--size-md);
+}
+
+.size-sm {
+  max-width: calc(var(--breakpoint-md) - 128px);
+}
+
+.size-md {
+  max-width: var(--breakpoint-md);
+}
+
+.size-lg {
+  max-width: var(--breakpoint-lg);
+}
+
+.size-xl {
+  max-width: var(--breakpoint-xl);
+}
+
+.size-full {
+  max-width: none;
+}
+
+.size-auto {
+  max-width: fit-content;
+}
+
+@media (min-width: 768px) {
+  .padded {
+    padding-inline: var(--size-lg);
+  }
+}

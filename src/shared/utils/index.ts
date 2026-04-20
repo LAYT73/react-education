@@ -1,0 +1,1 @@
+export { getImagePath } from './path'

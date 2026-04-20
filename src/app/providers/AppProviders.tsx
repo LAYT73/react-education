@@ -6,5 +6,10 @@ interface AppProvidersProps {
 }
 
 export function AppProviders({ children }: AppProvidersProps) {
-  return <BrowserRouter>{children}</BrowserRouter>
+  const basename =
+    import.meta.env.BASE_URL.length > 1
+      ? import.meta.env.BASE_URL.replace(/\/$/, '')
+      : import.meta.env.BASE_URL
+
+  return <BrowserRouter basename={basename}>{children}</BrowserRouter>
 }

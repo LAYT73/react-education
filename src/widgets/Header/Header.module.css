@@ -1,0 +1,28 @@
+.container {
+  flex-direction: row;
+}
+
+.logo {
+  font-size: var(--font-md);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.geoIcon {
+  width: 20px;
+}
+
+.geoText {
+  font-size: var(--font-5xs);
+  color: var(--color-gray);
+  font-weight: 400;
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding: var(--size-md);
+    gap: var(--size-sm);
+    flex-direction: column;
+    align-items: end;
+  }
+}

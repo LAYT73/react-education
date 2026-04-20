@@ -1,0 +1,103 @@
+.button {
+  position: relative;
+  overflow: hidden;
+
+  /* Размеры */
+  height: 48px;
+
+  /* Отступы */
+  padding: 0 24px;
+
+  /* Стилизация */
+  border: none;
+  cursor: pointer;
+
+  /* Центрирование текста */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Тень для объема */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ширина: 164px */
+.small {
+  width: 164px;
+  border-radius: var(--rounded-md);
+}
+
+/* Ширина: 250px */
+.large {
+  width: 250px;
+  border-radius: var(--rounded-lg);
+}
+
+/* Градиенты */
+.primary {
+  background: var(--gradient-primary);
+}
+
+.green {
+  background: var(--gradient-green);
+}
+
+.cian {
+  background: var(--gradient-cian);
+}
+
+.orange {
+  background: var(--gradient-orange);
+}
+
+.purple {
+  background: var(--gradient-purple);
+}
+
+/* Затемнение */
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.3s ease;
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+.content {
+  /* Шрифт */
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-white);
+
+  /* Позиционирование поверх before */
+  position: relative;
+  z-index: 2;
+}
+
+/* Hover эффект */
+.button:hover:not(.disabled)::before {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Active эффект */
+.button:active:not(.disabled)::before {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Disabled состояние */
+.disabled {
+  background: var(--color-light);
+  cursor: not-allowed;
+}
+
+/* Focus состояние для доступности */
+.button:focus-visible {
+  background: rgba(0, 0, 0, 0.1);
+}

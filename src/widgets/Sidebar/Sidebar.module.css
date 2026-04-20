@@ -1,0 +1,289 @@
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--size-xl);
+  height: 100dvh;
+  background-color: var(--color-background);
+  z-index: 1000;
+  overflow: hidden;
+  transition:
+    width 0.32s ease,
+    background-color 0.32s ease;
+}
+
+.open {
+  width: 100vw;
+  background-color: #151b1fcf;
+}
+
+.shell {
+  width: 100%;
+  height: 100%;
+}
+
+.rail {
+  flex: 0 0 var(--size-xl);
+  padding-block: var(--size-lg) var(--size-md);
+  background-color: var(--color-background);
+}
+
+.toggleButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size-lg);
+  height: var(--size-lg);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.toggleButton .icon {
+  position: relative;
+  z-index: 10;
+  color: var(--color-white);
+  transition:
+    transform 0.4s ease,
+    color 0.2s ease;
+}
+
+.toggleButton:hover .icon {
+  transform: scale(1.1);
+  color: var(--color-primary);
+}
+
+.toggleButton:active .icon {
+  transform: scale(0.95);
+}
+
+.toggleButton:focus-visible,
+.link:focus-visible {
+  outline: 1px solid var(--color-primary);
+  outline-offset: 0px;
+}
+
+.langButton:focus-visible {
+  outline: 1px solid var(--color-white);
+  outline-offset: 0px;
+}
+
+.langButton:hover {
+  outline: 1px solid var(--color-white);
+  color: var(--color-white);
+}
+
+.langButton:active {
+  outline: 1px solid var(--color-white);
+  color: var(--color-primary);
+}
+
+.icon {
+  width: var(--size-lg);
+  height: var(--size-lg);
+  flex-shrink: 0;
+}
+
+.desktopIcon {
+  display: none;
+}
+
+.mobileIcon {
+  display: inline-flex;
+}
+
+.langButton {
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  position: relative;
+  z-index: 10;
+  padding: 0;
+  border: 0;
+  outline: 1px solid transparent;
+  border-color: transparent;
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.panel {
+  flex: 1;
+  pointer-events: none;
+  transform: translateX(-500px);
+  transition:
+    opacity 0.4s ease 0.08s,
+    transform 0.4s ease 0.08s;
+}
+
+.open .panel {
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+.content {
+  padding-left: var(--size-xl);
+  height: 100%;
+  width: 47.5vw;
+  background-color: var(--color-background);
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-md);
+  max-width: 760px;
+}
+
+.navigationContainer {
+  position: relative;
+}
+
+.link {
+  color: var(--color-white);
+  font-size: var(--font-lg);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: var(--color-primary);
+}
+
+.socialLinks {
+  position: absolute;
+  bottom: -70px;
+  gap: 24px;
+}
+
+.socialLink path {
+  fill: var(--color-white);
+  transition: fill 0.2s ease;
+}
+
+.socialIcon:hover path {
+  fill: var(--color-primary);
+}
+
+@media (max-width: 1439px) {
+  .content {
+    width: 60vw;
+    padding-left: var(--size-lg);
+  }
+}
+
+@media (max-width: 1023px) {
+  .content {
+    width: 100vw;
+  }
+
+  .link {
+    font-size: var(--font-sm);
+  }
+}
+
+@media (max-width: 767px) {
+  .sidebar {
+    inset: 0;
+    width: 0;
+    height: 0;
+    overflow: visible;
+    background-color: transparent;
+    pointer-events: none;
+  }
+
+  .open {
+    width: 100vw;
+    height: 100dvh;
+    background-color: #151b1fcf;
+    pointer-events: auto;
+  }
+
+  .shell {
+    position: relative;
+    width: 100vw;
+    height: 0;
+  }
+
+  .open .shell {
+    height: 100dvh;
+  }
+
+  .rail {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1002;
+    flex: 0 0 auto;
+    padding: 0;
+    background-color: transparent;
+    pointer-events: auto;
+  }
+
+  .langButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    left: 16px;
+    bottom: 16px;
+    z-index: 1002;
+    width: 44px;
+    height: 44px;
+    font-size: 12px;
+    opacity: 0;
+    transform: translateY(8px) scale(0.92);
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 0.22s ease,
+      transform 0.22s ease,
+      visibility 0s linear 0.22s;
+  }
+
+  .open .langButton {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0.08s, 0.08s, 0s;
+  }
+
+  .toggleButton .icon {
+    color: #000000;
+  }
+
+  .open .toggleButton .icon {
+    color: var(--color-white);
+  }
+
+  .panel {
+    position: fixed;
+    inset: 0;
+    transform: translateX(-100%);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .content {
+    width: 100vw;
+    padding: 80px 28px 32px;
+    justify-content: flex-start;
+  }
+
+  .navigation {
+    gap: 20px;
+  }
+
+  .link {
+    font-size: var(--font-2xs);
+  }
+}
