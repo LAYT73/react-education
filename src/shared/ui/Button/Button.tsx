@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import styles from './Button.module.css'
+import styles from './button.module.css'
 
 type ButtonVariant = 'primary' | 'green' | 'cian' | 'orange' | 'purple'
 type ButtonWidth = 'small' | 'large'

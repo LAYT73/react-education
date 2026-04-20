@@ -2,7 +2,7 @@ import { Button } from '@/shared/ui/Button'
 import { SLIDER_SLIDES } from '@/shared/consts'
 import LeftArrowIcon from '@/shared/assets/icons/slider/slider-left-arrow.svg?react'
 import RightArrowIcon from '@/shared/assets/icons/slider/slider-right-arrow.svg?react'
-import styles from './Slider.module.css'
+import styles from './slider.module.css'
 import { useState } from 'react'
 
 export const Slider = () => {

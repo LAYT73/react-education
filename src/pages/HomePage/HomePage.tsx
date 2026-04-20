@@ -1,6 +1,6 @@
 import { Button, Flex, Slider } from '@/shared/ui'
 import { motion } from 'motion/react'
-import styles from './HomePage.module.css'
+import styles from './homePage.module.css'
 import { usePageAnimations } from '@/shared/libs'
 import { Footer, Header } from '@/widgets'
 import { useNavigate } from 'react-router-dom'

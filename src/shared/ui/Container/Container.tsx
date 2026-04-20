@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react'
 
-import styles from './Container.module.css'
+import styles from './container.module.css'
 
 type ContainerSize = 'sm' | 'md' | 'lg' | 'xl' | 'full' | 'auto'
 

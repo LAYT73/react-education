@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react'
 
-import styles from './Flex.module.css'
+import styles from './flex.module.css'
 
 type FlexDirection = 'row' | 'column' | 'row-reverse' | 'column-reverse'
 type FlexAlign = 'start' | 'center' | 'end' | 'stretch' | 'baseline'

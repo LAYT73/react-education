@@ -1,5 +1,5 @@
 import { Flex } from '@/shared/ui'
-import styles from './Footer.module.css'
+import styles from './footer.module.css'
 
 export const Footer = () => {
   return (

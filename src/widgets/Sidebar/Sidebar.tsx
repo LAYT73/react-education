@@ -7,7 +7,7 @@ import TelegramIcon from '@/shared/assets/icons/telegram.svg?react'
 import FacebookIcon from '@/shared/assets/icons/facebook.svg?react'
 import InstagramIcon from '@/shared/assets/icons/instagram.svg?react'
 
-import styles from './Sidebar.module.css'
+import styles from './sidebar.module.css'
 import { BurgerIcon } from './components/BurgerIcon'
 
 const navigationItems = ['ПАРКОВКА', 'СТРАХОВКА', 'БЕНЗИН', 'ОБСЛУЖИВАНИЕ']

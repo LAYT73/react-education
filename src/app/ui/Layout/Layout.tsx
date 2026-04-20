@@ -1,7 +1,7 @@
 import { Container } from '@/shared/ui'
 import { Sidebar } from '@/widgets'
 import { Outlet } from 'react-router-dom'
-import styles from './Layout.module.css'
+import styles from './layout.module.css'
 
 export const Layout = () => {
   return (
