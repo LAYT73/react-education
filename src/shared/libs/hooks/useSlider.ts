@@ -7,6 +7,7 @@ type UseSliderParams = {
 }
 
 const normalizeSlideIndex = (index: number, slidesCount: number) => {
+  if (slidesCount === 0) return 0
   return ((index % slidesCount) + slidesCount) % slidesCount
 }
 
@@ -71,8 +72,9 @@ export const useSlider = ({
     setCurrentSlideIndex((prevIndex) => normalizeSlideIndex(prevIndex - 1, slidesCount))
   }, [slidesCount, runManualInteraction])
 
-  const normalizedSlideIndex =
-    slidesCount === 0 ? 0 : normalizeSlideIndex(currentSlideIndex, slidesCount)
+  const normalizedSlideIndex = slidesCount
+    ? normalizeSlideIndex(currentSlideIndex, slidesCount)
+    : 0
 
   useEffect(() => {
     if (!isAutoPlayEnabled || slidesCount === 0) {
