@@ -45,7 +45,7 @@
   display: flex;
   align-items: flex-end;
   gap: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 .pickupLabel,
@@ -63,20 +63,14 @@
 .pickupValue {
   color: var(--color-gray);
   text-align: right;
+  max-width: 168px;
+  white-space: normal;
 }
 
 .pickupDots {
   flex: 1;
   border-bottom: 1px dotted var(--color-gray);
   margin-bottom: 3px;
-}
-
-.priceRange {
-  margin: 32px 0;
-  font-size: var(--font-4xs);
-  font-weight: 400;
-  line-height: 1.35;
-  color: var(--color-dark);
 }
 
 .sidebarButton {

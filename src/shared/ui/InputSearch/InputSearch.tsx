@@ -53,7 +53,8 @@ export const InputSearch = ({
   const [isInputFocused, setIsInputFocused] = useState(false)
   const hasValue = value.trim().length > 0
   const shouldShowClearButton = showClearButton && hasValue && !disabled
-  const shouldShowDropdown = isDropdownOpen && isInputFocused && options.length > 0
+  const shouldShowDropdown =
+    isInputFocused && options.length > 0 && (isDropdownOpen || !hasValue)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value)

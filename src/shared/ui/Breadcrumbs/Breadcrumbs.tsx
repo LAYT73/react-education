@@ -10,6 +10,8 @@ export type BreadcrumbItem = {
 type BreadcrumbsProps = {
   items: BreadcrumbItem[]
   activePath: string
+  isItemDisabled?: (index: number) => boolean
+  onItemClick?: (item: BreadcrumbItem, index: number) => void
   className?: string
 }
 
@@ -23,7 +25,13 @@ const getActiveIndex = (items: BreadcrumbItem[], activePath: string): number => 
   return items.findIndex((item) => activePath.startsWith(item.path))
 }
 
-export const Breadcrumbs = ({ items, activePath, className }: BreadcrumbsProps) => {
+export const Breadcrumbs = ({
+  items,
+  activePath,
+  isItemDisabled,
+  onItemClick,
+  className,
+}: BreadcrumbsProps) => {
   const activeIndex = getActiveIndex(items, activePath)
 
   return (
@@ -32,18 +40,23 @@ export const Breadcrumbs = ({ items, activePath, className }: BreadcrumbsProps) 
         {items.map((item, index) => {
           const isActive = index === activeIndex
           const isCompleted = activeIndex > -1 && index < activeIndex
+          const disabled = isItemDisabled?.(index) ?? false
 
           return (
             <li key={item.path} className={styles.item}>
-              <span
+              <button
+                type="button"
+                onClick={() => onItemClick?.(item, index)}
+                disabled={disabled}
                 className={clsx(styles.label, {
                   [styles.active]: isActive,
                   [styles.completed]: isCompleted,
                   [styles.inactive]: !isActive && !isCompleted,
+                  [styles.disabled]: disabled,
                 })}
               >
                 {item.label}
-              </span>
+              </button>
               {index < items.length - 1 && (
                 <DividerIcon className={styles.divider} aria-hidden="true" />
               )}

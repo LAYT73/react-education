@@ -1,4 +1,5 @@
 import { useYandexMaps } from '@/shared/libs/hooks/useYandexMaps'
+import clsx from 'clsx'
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from 'react'
 import type {
   Marker,
@@ -6,12 +7,8 @@ import type {
   YandexMapRef,
   YMapMarkerInstance,
 } from '@/shared/types/yandex-maps.types'
-import {
-  DEFAULT_CENTER,
-  DEFAULT_MAP_HEIGHT,
-  DEFAULT_ZOOM,
-  MARKER_PRESET,
-} from '@/shared/consts'
+import styles from './yandexMap.module.css'
+import { DEFAULT_CENTER, DEFAULT_ZOOM, MARKER_PRESET } from '@/shared/consts'
 
 export const YandexMap = forwardRef<YandexMapRef, YandexMapProps>(
   (
@@ -163,15 +160,7 @@ export const YandexMap = forwardRef<YandexMapRef, YandexMapProps>(
 
     if (error) {
       return (
-        <div
-          style={{
-            padding: '20px',
-            color: 'red',
-            border: '1px solid red',
-            borderRadius: '4px',
-            ...style,
-          }}
-        >
+        <div className={clsx(styles.stateBox, styles.error)} style={style}>
           Ошибка загрузки карты: {error.message}
         </div>
       )
@@ -179,26 +168,14 @@ export const YandexMap = forwardRef<YandexMapRef, YandexMapProps>(
 
     if (!isLoaded) {
       return (
-        <div
-          style={{
-            padding: '20px',
-            textAlign: 'center',
-            backgroundColor: '#f5f5f5',
-            borderRadius: '4px',
-            ...style,
-          }}
-        >
+        <div className={clsx(styles.stateBox, styles.loading)} style={style}>
           Загрузка карты...
         </div>
       )
     }
 
     return (
-      <div
-        ref={mapContainerRef}
-        className={className}
-        style={{ width: '100%', height: DEFAULT_MAP_HEIGHT, ...style }}
-      />
+      <div ref={mapContainerRef} className={clsx(styles.map, className)} style={style} />
     )
   },
 )

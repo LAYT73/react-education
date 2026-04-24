@@ -1,55 +1,38 @@
+import ResetIcon from '@/shared/assets/icons/reset-input.svg?react'
 import { InputSearch } from '@/shared/ui'
 import { YandexMap } from '@/shared/ui/YandexMap/YandexMap'
-import { useMemo, useState } from 'react'
 import styles from './firstStepPage.module.css'
-import ResetIcon from '@/shared/assets/icons/reset-input.svg?react'
-import { DEMO_MARKERS, MOCK_CITY_OPTIONS } from '@/shared/consts'
+import { useLocationStep } from './model/useLocationStep'
 
 export const FirstStepPage = () => {
-  const [cityValue, setCityValue] = useState('Ульяновск')
-  const [pickupPointValue, setPickupPointValue] = useState('')
+  const {
+    state,
+    selectedCityOption,
+    filteredCityOptions,
+    filteredPickupPointOptions,
+    displayedMarkers,
+    mapCenter,
+    showPickupValidation,
+    pickupPlaceholder,
+    setCity,
+    setPickupPoint,
+    handlePickupInputChange,
+    handlePickupOptionSelect,
+    handleMarkerClick,
+  } = useLocationStep()
   const yandexApiKey = import.meta.env.VITE_YANDEX_MAPS_API_KEY ?? ''
-
-  const filteredCityOptions = useMemo(() => {
-    const normalizedValue = cityValue.trim().toLowerCase()
-
-    if (!normalizedValue) {
-      return MOCK_CITY_OPTIONS
-    }
-
-    return MOCK_CITY_OPTIONS.filter((option) =>
-      option.label.toLowerCase().includes(normalizedValue),
-    )
-  }, [cityValue])
-
-  const filteredPickupPointOptions = useMemo(() => {
-    const normalizedValue = pickupPointValue.trim().toLowerCase()
-
-    if (!normalizedValue) {
-      return DEMO_MARKERS.map((marker) => ({
-        id: marker.id,
-        label: marker.title ?? String(marker.id),
-      }))
-    }
-
-    return DEMO_MARKERS.map((marker) => ({
-      id: marker.id,
-      label: marker.title ?? String(marker.id),
-    })).filter((option) => option.label.toLowerCase().includes(normalizedValue))
-  }, [pickupPointValue])
 
   return (
     <div className={styles.page}>
       <div className={styles.fieldGroup}>
         <p className={styles.fieldLabel}>Город</p>
         <InputSearch
-          className={styles.fieldInput}
-          value={cityValue}
-          onChange={setCityValue}
+          value={state.city}
+          onChange={setCity}
           options={filteredCityOptions}
-          isDropdownOpen={cityValue.trim().length > 0}
-          onOptionSelect={(option) => setCityValue(option.label)}
-          onClear={() => setCityValue('')}
+          isDropdownOpen={state.city.trim().length > 0}
+          onOptionSelect={(option) => setCity(option.label)}
+          onClear={() => setCity('')}
           placeholder="Введите город"
           clearIcon={<ResetIcon aria-label="Очистить поле" />}
         />
@@ -58,35 +41,36 @@ export const FirstStepPage = () => {
       <div className={styles.fieldGroup}>
         <p className={styles.fieldLabel}>Пункт выдачи</p>
         <InputSearch
-          className={styles.fieldInput}
-          value={pickupPointValue}
-          onChange={setPickupPointValue}
+          value={state.pickupPoint}
+          onChange={handlePickupInputChange}
           options={filteredPickupPointOptions}
-          isDropdownOpen={pickupPointValue.trim().length > 0}
-          onOptionSelect={(option) => setPickupPointValue(option.label)}
-          onClear={() => setPickupPointValue('')}
-          placeholder="Начните вводить пункт выдачи"
+          isDropdownOpen={
+            Boolean(selectedCityOption) && state.pickupPoint.trim().length > 0
+          }
+          onOptionSelect={handlePickupOptionSelect}
+          onClear={() => setPickupPoint('', null)}
+          placeholder={pickupPlaceholder}
+          disabled={!selectedCityOption}
           clearIcon={<ResetIcon aria-label="Очистить поле" />}
         />
       </div>
+
+      {showPickupValidation && (
+        <p className={styles.validationText}>
+          Выберите пункт выдачи из списка или на карте.
+        </p>
+      )}
 
       <section className={styles.mapSection}>
         <p className={styles.mapTitle}>Выбрать на карте:</p>
         {yandexApiKey ? (
           <YandexMap
             apiKey={yandexApiKey}
-            center={[54.318598, 48.405773]} // Ульяновск
+            center={mapCenter}
             zoom={12}
-            markers={DEMO_MARKERS}
-            onMarkerClick={(marker) =>
-              setPickupPointValue(marker.title ?? String(marker.id))
-            }
-            style={{
-              height: '420px',
-              width: '100%',
-              borderRadius: '12px',
-              overflow: 'hidden',
-            }}
+            markers={displayedMarkers}
+            onMarkerClick={handleMarkerClick}
+            className={styles.map}
           />
         ) : (
           <div className={styles.apiKeyWarning}>

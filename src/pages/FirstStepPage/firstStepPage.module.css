@@ -8,7 +8,7 @@
   display: grid;
   grid-template-columns: 92px minmax(0, 1fr);
   align-items: center;
-  gap: 12px;
+  gap: 6px;
 }
 
 .fieldLabel {
@@ -19,11 +19,22 @@
   text-align: end;
 }
 
+.validationText {
+  margin: -10px 0 0 104px;
+  color: #d12e2e;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
 @media (max-width: 767px) {
   .fieldGroup {
     grid-template-columns: 1fr;
     align-items: stretch;
     gap: 6px;
+  }
+
+  .validationText {
+    margin: -6px 0 0;
   }
 }
 
@@ -37,6 +48,13 @@
   margin: 0;
   font-size: var(--font-5xs);
   font-weight: 300;
+}
+
+.map {
+  width: 100%;
+  height: 420px;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .mapCaption {

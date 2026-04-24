@@ -1,9 +1,11 @@
+import { useOrderFlow } from '@/app/providers'
 import { ROUTES } from '@/shared/consts'
 import { Breadcrumbs, Button } from '@/shared/ui'
 import { Header } from '@/widgets'
-import { useMemo } from 'react'
+import { Fragment, useMemo } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styles from './orderLayout.module.css'
 
 const ORDER_BREADCRUMBS = [
@@ -15,6 +17,8 @@ const ORDER_BREADCRUMBS = [
 
 export const OrderLayout = () => {
   const { pathname } = useLocation()
+  const navigate = useNavigate()
+  const { state, availableStepIndexes, isLocationComplete } = useOrderFlow()
 
   const normalizedPath = useMemo(() => {
     return pathname.endsWith('/') && pathname.length > 1
@@ -34,7 +38,18 @@ export const OrderLayout = () => {
 
       <div className={styles.sectionWithDivider}>
         <div className={styles.container}>
-          <Breadcrumbs items={ORDER_BREADCRUMBS} activePath={normalizedPath} />
+          <Breadcrumbs
+            items={ORDER_BREADCRUMBS}
+            activePath={normalizedPath}
+            isItemDisabled={(index) => index > availableStepIndexes}
+            onItemClick={(item, index) => {
+              if (index > availableStepIndexes) {
+                return
+              }
+
+              navigate(item.path)
+            }}
+          />
         </div>
       </div>
 
@@ -47,20 +62,26 @@ export const OrderLayout = () => {
           <aside className={styles.sidebar}>
             <h3 className={styles.sidebarTitle}>Ваш заказ:</h3>
 
-            <div className={styles.pickupRow}>
-              <span className={styles.pickupLabel}>Пункт выдачи</span>
-              <span className={styles.pickupDots} aria-hidden="true" />
-              <span className={styles.pickupValue}>
-                Ульяновск,
-                <br /> Нариманова 42
-              </span>
-            </div>
+            {isLocationComplete && (
+              <div className={styles.pickupRow}>
+                <span className={styles.pickupLabel}>Пункт выдачи</span>
+                <span className={styles.pickupDots} aria-hidden="true" />
+                {/* Нужно после "Город,..." делать br */}
+                <span className={styles.pickupValue}>
+                  {state.pickupPoint.split(', ').map((part: string, index: number) => (
+                    <Fragment key={index}>
+                      {part},{index < state.pickupPoint.split(', ').length - 1 && <br />}
+                    </Fragment>
+                  ))}
+                </span>
+              </div>
+            )}
 
-            <p className={styles.priceRange}>
-              <strong>Цена:</strong> от 8 000 до 12 000 ₽
-            </p>
-
-            <Button disabled className={styles.sidebarButton}>
+            <Button
+              disabled={!isLocationComplete}
+              className={styles.sidebarButton}
+              onClick={() => navigate(ROUTES.ORDER_MODEL_STEP.path)}
+            >
               Выбрать модель
             </Button>
           </aside>
