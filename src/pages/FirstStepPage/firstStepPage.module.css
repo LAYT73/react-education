@@ -1,0 +1,54 @@
+.page {
+  display: grid;
+  gap: 20px;
+  max-width: 736px;
+}
+
+.fieldGroup {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.fieldLabel {
+  margin: 0;
+  font-size: var(--font-5xs);
+  font-weight: 300;
+  color: var(--color-dark);
+  text-align: end;
+}
+
+@media (max-width: 767px) {
+  .fieldGroup {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 6px;
+  }
+}
+
+.mapSection {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.mapTitle {
+  margin: 0;
+  font-size: var(--font-5xs);
+  font-weight: 300;
+}
+
+.mapCaption {
+  margin: 0;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.apiKeyWarning {
+  padding: 16px;
+  border: 1px solid #f59e0b;
+  background: #fffbeb;
+  color: #92400e;
+  border-radius: 12px;
+}

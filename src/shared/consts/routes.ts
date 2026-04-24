@@ -8,6 +8,9 @@ const ROUTES: RoutesType = {
   HOME: {
     path: '/',
   },
+  ORDER: {
+    path: '/order',
+  },
   ORDER_FIRST_STEP: {
     path: '/order/first-step',
   },

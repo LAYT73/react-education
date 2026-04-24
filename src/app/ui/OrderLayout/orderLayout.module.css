@@ -1,0 +1,111 @@
+.page {
+  width: 100%;
+}
+
+.sectionWithDivider {
+  border-bottom: 1px solid var(--color-light);
+}
+
+.container {
+  width: min(100%, 1248px);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.headerWrap {
+  padding: 32px 0;
+}
+
+.layoutGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 0;
+}
+
+.content {
+  padding: 32px 0 48px;
+  min-width: 0;
+}
+
+.sidebar {
+  border-left: 1px solid var(--color-light);
+  padding: 32px 0 0 32px;
+  align-self: start;
+  min-height: 100%;
+}
+
+.sidebarTitle {
+  font-size: var(--font-3xs);
+  font-weight: 500;
+  margin-bottom: 28px;
+  text-align: end;
+}
+
+.pickupRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.pickupLabel,
+.pickupValue {
+  font-size: var(--font-5xs);
+  line-height: 1.35;
+  white-space: nowrap;
+  font-weight: 300;
+}
+
+.pickupLabel {
+  color: var(--color-dark);
+}
+
+.pickupValue {
+  color: var(--color-gray);
+  text-align: right;
+}
+
+.pickupDots {
+  flex: 1;
+  border-bottom: 1px dotted var(--color-gray);
+  margin-bottom: 3px;
+}
+
+.priceRange {
+  margin: 32px 0;
+  font-size: var(--font-4xs);
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--color-dark);
+}
+
+.sidebarButton {
+  width: 100%;
+}
+
+@media (max-width: 1023px) {
+  .layoutGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-left: none;
+    border-top: 1px solid var(--color-light);
+    padding: 24px 0 0;
+    margin-bottom: 32px;
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .headerWrap {
+    padding: 24px 0;
+  }
+
+  .content {
+    padding: 24px 0 32px;
+  }
+}

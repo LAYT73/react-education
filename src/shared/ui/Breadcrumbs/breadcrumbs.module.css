@@ -1,0 +1,43 @@
+.root {
+  padding: 8px 0;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17px;
+}
+
+.active {
+  color: var(--color-primary);
+}
+
+.completed {
+  color: var(--color-dark);
+}
+
+.inactive {
+  color: var(--color-gray);
+}
+
+.divider {
+  width: 6px;
+  height: 8px;
+  flex-shrink: 0;
+}
