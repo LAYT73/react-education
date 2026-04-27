@@ -9,6 +9,7 @@ export const routes: RouteObject[] = [
     element: <Layout />,
     children: [
       { index: true, element: <HomePage /> },
+      // Заглушка для V-2
       { path: ROUTES.ORDER_FIRST_STEP.path, element: <>Order First Step</> },
       { path: ROUTES.NOTFOUND.path, element: <>NotFound</> },
     ],

@@ -1,5 +1,5 @@
 import { Flex } from '@/shared/ui'
-import styles from './Header.module.css'
+import styles from './header.module.css'
 import GeoIcon from '@/shared/assets/icons/location-icon.svg?react'
 
 export const Header = () => {
