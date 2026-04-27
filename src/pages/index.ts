@@ -1,1 +1,5 @@
 export * from './HomePage'
+export * from './FirstStepPage'
+export * from './ModelStepPage'
+export * from './AdditionalStepPage'
+export * from './TotalStepPage'

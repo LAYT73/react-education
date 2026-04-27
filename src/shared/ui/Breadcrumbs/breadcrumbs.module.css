@@ -1,0 +1,52 @@
+.root {
+  padding: 8px 0;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.label {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17px;
+  cursor: pointer;
+}
+
+.active {
+  color: var(--color-primary);
+}
+
+.completed {
+  color: var(--color-dark);
+}
+
+.inactive {
+  color: var(--color-gray);
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.divider {
+  width: 6px;
+  height: 8px;
+  flex-shrink: 0;
+}
