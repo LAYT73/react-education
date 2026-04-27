@@ -70,3 +70,9 @@
   color: #92400e;
   border-radius: 12px;
 }
+
+@media (max-width: 767px) {
+  .fieldLabel {
+    text-align: left;
+  }
+}
