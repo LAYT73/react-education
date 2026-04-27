@@ -66,7 +66,6 @@ export const OrderLayout = () => {
               <div className={styles.pickupRow}>
                 <span className={styles.pickupLabel}>Пункт выдачи</span>
                 <span className={styles.pickupDots} aria-hidden="true" />
-                {/* Нужно после "Город,..." делать br */}
                 <span className={styles.pickupValue}>
                   {state.pickupPoint.split(', ').map((part: string, index: number) => (
                     <Fragment key={index}>
