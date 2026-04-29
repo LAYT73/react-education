@@ -1,0 +1,63 @@
+.wrapper {
+  position: relative;
+  width: 224px;
+}
+
+.field {
+  position: relative;
+  border-bottom: 1px solid #999999;
+}
+
+.input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 4px 8px;
+  padding-right: 28px;
+  color: #121212;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 16px;
+  font-family: 'Roboto';
+}
+
+.input::placeholder {
+  color: #999999;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.input:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.clearButton {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 0;
+  background: transparent;
+  color: #999999;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.clearButton:hover {
+  color: #121212;
+}
+
+.clearButton:focus-visible {
+  outline: 1px solid #999999;
+  outline-offset: 1px;
+}

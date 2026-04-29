@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { useMemo } from 'react'
 import { useShallow } from 'zustand/shallow'
+import { parseOrderDateTime } from '@/shared/utils'
 type OrderStep = 'location' | 'model' | 'additional' | 'total'
 
 type OrderState = {
@@ -11,6 +12,10 @@ type OrderState = {
   modelPriceFrom: number | null
   modelPriceTo: number | null
   additional: string[]
+  color: string
+  rentFrom: string
+  rentTo: string
+  tariff: string
   totalConfirmed: boolean
 }
 
@@ -23,6 +28,10 @@ type OrderFlowActions = {
     priceTo?: number | null,
   ) => void
   setAdditional: (additional: string[]) => void
+  setColor: (color: string) => void
+  setRentFrom: (rentFrom: string) => void
+  setRentTo: (rentTo: string) => void
+  setTariff: (tariff: string) => void
   setTotalConfirmed: (totalConfirmed: boolean) => void
 }
 
@@ -47,6 +56,10 @@ const initialState: OrderState = {
   modelPriceFrom: null,
   modelPriceTo: null,
   additional: [],
+  color: '',
+  rentFrom: '',
+  rentTo: '',
+  tariff: '',
   totalConfirmed: false,
 }
 
@@ -56,7 +69,14 @@ const selectStepMeta = (state: OrderState) => {
     state.pickupPoint.trim().length > 0 &&
     Boolean(state.pickupPointId)
   const isModelComplete = Boolean(state.model)
-  const isAdditionalComplete = state.additional.length > 0
+  const rentFromDate = parseOrderDateTime(state.rentFrom)
+  const rentToDate = parseOrderDateTime(state.rentTo)
+  const isAdditionalComplete =
+    state.color.trim().length > 0 &&
+    state.rentFrom.trim().length > 0 &&
+    state.rentTo.trim().length > 0 &&
+    state.tariff.trim().length > 0 &&
+    Boolean(rentFromDate && rentToDate && rentToDate.getTime() > rentFromDate.getTime())
 
   const completedSteps: OrderStep[] = []
 
@@ -111,6 +131,10 @@ const useOrderFlowStore = create<OrderFlowStore>((set) => ({
           modelPriceFrom: null,
           modelPriceTo: null,
           additional: [],
+          color: '',
+          rentFrom: '',
+          rentTo: '',
+          tariff: '',
           totalConfirmed: false,
         },
       }
@@ -134,6 +158,10 @@ const useOrderFlowStore = create<OrderFlowStore>((set) => ({
           modelPriceFrom: null,
           modelPriceTo: null,
           additional: [],
+          color: '',
+          rentFrom: '',
+          rentTo: '',
+          tariff: '',
           totalConfirmed: false,
         },
       }
@@ -147,6 +175,10 @@ const useOrderFlowStore = create<OrderFlowStore>((set) => ({
         modelPriceFrom: priceFrom,
         modelPriceTo: priceTo,
         additional: [],
+        color: '',
+        rentFrom: '',
+        rentTo: '',
+        tariff: '',
         totalConfirmed: false,
       },
     }))
@@ -160,6 +192,66 @@ const useOrderFlowStore = create<OrderFlowStore>((set) => ({
       },
     }))
   },
+  setColor: (color) => {
+    set((prev) => {
+      if (prev.state.color === color) {
+        return prev
+      }
+
+      return {
+        state: {
+          ...prev.state,
+          color,
+          totalConfirmed: false,
+        },
+      }
+    })
+  },
+  setRentFrom: (rentFrom) => {
+    set((prev) => {
+      if (prev.state.rentFrom === rentFrom) {
+        return prev
+      }
+
+      return {
+        state: {
+          ...prev.state,
+          rentFrom,
+          totalConfirmed: false,
+        },
+      }
+    })
+  },
+  setRentTo: (rentTo) => {
+    set((prev) => {
+      if (prev.state.rentTo === rentTo) {
+        return prev
+      }
+
+      return {
+        state: {
+          ...prev.state,
+          rentTo,
+          totalConfirmed: false,
+        },
+      }
+    })
+  },
+  setTariff: (tariff) => {
+    set((prev) => {
+      if (prev.state.tariff === tariff) {
+        return prev
+      }
+
+      return {
+        state: {
+          ...prev.state,
+          tariff,
+          totalConfirmed: false,
+        },
+      }
+    })
+  },
   setTotalConfirmed: (totalConfirmed) => {
     set((prev) => ({
       state: {
@@ -171,17 +263,31 @@ const useOrderFlowStore = create<OrderFlowStore>((set) => ({
 }))
 
 export const useOrderFlow = (): OrderFlowContextValue => {
-  const { state, setCity, setPickupPoint, setModel, setAdditional, setTotalConfirmed } =
-    useOrderFlowStore(
-      useShallow((store) => ({
-        state: store.state,
-        setCity: store.setCity,
-        setPickupPoint: store.setPickupPoint,
-        setModel: store.setModel,
-        setAdditional: store.setAdditional,
-        setTotalConfirmed: store.setTotalConfirmed,
-      })),
-    )
+  const {
+    state,
+    setCity,
+    setPickupPoint,
+    setModel,
+    setAdditional,
+    setColor,
+    setRentFrom,
+    setRentTo,
+    setTariff,
+    setTotalConfirmed,
+  } = useOrderFlowStore(
+    useShallow((store) => ({
+      state: store.state,
+      setCity: store.setCity,
+      setPickupPoint: store.setPickupPoint,
+      setModel: store.setModel,
+      setAdditional: store.setAdditional,
+      setColor: store.setColor,
+      setRentFrom: store.setRentFrom,
+      setRentTo: store.setRentTo,
+      setTariff: store.setTariff,
+      setTotalConfirmed: store.setTotalConfirmed,
+    })),
+  )
 
   const stepMeta = useMemo(() => selectStepMeta(state), [state])
 
@@ -193,6 +299,10 @@ export const useOrderFlow = (): OrderFlowContextValue => {
       setPickupPoint,
       setModel,
       setAdditional,
+      setColor,
+      setRentFrom,
+      setRentTo,
+      setTariff,
       setTotalConfirmed,
     }),
     [
@@ -202,6 +312,10 @@ export const useOrderFlow = (): OrderFlowContextValue => {
       setPickupPoint,
       setModel,
       setAdditional,
+      setColor,
+      setRentFrom,
+      setRentTo,
+      setTariff,
       setTotalConfirmed,
     ],
   )

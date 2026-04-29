@@ -1,0 +1,60 @@
+.page {
+  display: flex;
+  flex-direction: column;
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.label {
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 16px;
+  color: var(--color-dark);
+}
+
+.colorGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.dateGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 16px) 224px;
+  column-gap: 16px;
+  row-gap: 16px;
+  align-items: center;
+}
+
+.dateLabel {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 16px;
+  color: var(--color-dark);
+  text-align: end;
+}
+
+.tariffGroup,
+.additionalGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (max-width: 767px) {
+  .dateGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .dateLabel {
+    text-align: left;
+  }
+
+  .dateLabel {
+    margin-bottom: -8px;
+  }
+}

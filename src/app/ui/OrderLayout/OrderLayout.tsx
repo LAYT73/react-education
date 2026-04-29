@@ -1,5 +1,5 @@
 import { useOrderFlow } from '@/app/providers'
-import { ROUTES } from '@/shared/consts'
+import { ADDITIONAL_SERVICE_OPTIONS, CAR_COLOR_OPTIONS, ROUTES } from '@/shared/consts'
 import { Breadcrumbs, Button } from '@/shared/ui'
 import { Header } from '@/widgets'
 import { Fragment, useMemo } from 'react'
@@ -7,6 +7,7 @@ import { Outlet } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { ErrorBoundary } from '../ErrorBoundary'
+import { formatDateTimeDuration } from '@/shared/utils'
 import styles from './orderLayout.module.css'
 
 const ORDER_BREADCRUMBS = [
@@ -19,14 +20,58 @@ const ORDER_BREADCRUMBS = [
 export const OrderLayout = () => {
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const { state, availableStepIndexes, isLocationComplete, isModelComplete } =
-    useOrderFlow()
+  const {
+    state,
+    availableStepIndexes,
+    isLocationComplete,
+    isModelComplete,
+    isAdditionalComplete,
+  } = useOrderFlow()
 
   const normalizedPath = useMemo(() => {
     return pathname.endsWith('/') && pathname.length > 1
       ? pathname.slice(0, -1)
       : pathname
   }, [pathname])
+
+  const isModelStep = normalizedPath.includes('model')
+  const isAdditionalStep = normalizedPath.includes('additional')
+  const isTotalStep = normalizedPath.includes('total')
+
+  const colorLabel = CAR_COLOR_OPTIONS.find(
+    (option) => option.value === state.color,
+  )?.label
+  const tariffLabel = state.tariff === 'per-day' ? 'На сутки' : 'Поминутно'
+  const rentalDuration = formatDateTimeDuration(state.rentFrom, state.rentTo)
+  const selectedAdditionalServices = useMemo(
+    () =>
+      state.additional
+        .map((serviceValue) => {
+          const option = ADDITIONAL_SERVICE_OPTIONS.find(
+            (currentOption) => currentOption.value === serviceValue,
+          )
+
+          if (!option) {
+            return null
+          }
+
+          return option
+        })
+        .filter((option) => option !== null),
+    [state.additional],
+  )
+
+  const additionalServicesPrice = selectedAdditionalServices.reduce(
+    (sum, option) => sum + option.price,
+    0,
+  )
+
+  const modelPriceLabel =
+    state.modelPriceFrom !== null && state.modelPriceTo !== null
+      ? isAdditionalComplete
+        ? `${(state.modelPriceTo + additionalServicesPrice).toLocaleString()} ₽`
+        : `от ${state.modelPriceFrom.toLocaleString()} до ${state.modelPriceTo.toLocaleString()} ₽`
+      : ''
 
   return (
     <div className={styles.page}>
@@ -91,33 +136,87 @@ export const OrderLayout = () => {
                   <span className={styles.pickupDots} aria-hidden="true" />
                   <span className={styles.pickupValue}>{state.model}</span>
                 </div>
-
-                <div className={styles.priceRow}>
-                  <span className={styles.priceLabel}>Цена:</span>
-                  <span className={styles.priceValue}>
-                    от {state.modelPriceFrom?.toLocaleString()} до{' '}
-                    {state.modelPriceTo?.toLocaleString()} ₽
-                  </span>
-                </div>
               </>
             )}
 
-            <Button
-              disabled={
-                !isLocationComplete ||
-                (normalizedPath.includes('model') && !isModelComplete)
+            {colorLabel && (
+              <div className={styles.pickupRow}>
+                <span className={styles.pickupLabel}>Цвет</span>
+                <span className={styles.pickupDots} aria-hidden="true" />
+                <span className={styles.pickupValue}>{colorLabel}</span>
+              </div>
+            )}
+
+            {rentalDuration && (
+              <div className={styles.pickupRow}>
+                <span className={styles.pickupLabel}>Длительность аренды</span>
+                <span className={styles.pickupDots} aria-hidden="true" />
+                <span className={styles.pickupValue}>{rentalDuration}</span>
+              </div>
+            )}
+
+            {state.tariff && (
+              <div className={styles.pickupRow}>
+                <span className={styles.pickupLabel}>Тариф</span>
+                <span className={styles.pickupDots} aria-hidden="true" />
+                <span className={styles.pickupValue}>{tariffLabel}</span>
+              </div>
+            )}
+
+            {state.additional.map((serviceValue) => {
+              const serviceLabel = ADDITIONAL_SERVICE_OPTIONS.find(
+                (option) => option.value === serviceValue,
+              )?.sidebarLabel
+
+              if (!serviceLabel) {
+                return null
               }
-              className={styles.sidebarButton}
-              onClick={() => {
-                if (normalizedPath.includes('model')) {
-                  navigate(ROUTES.ORDER_ADDITIONAL_STEP.path)
-                } else {
-                  navigate(ROUTES.ORDER_MODEL_STEP.path)
+
+              return (
+                <div className={styles.pickupRow} key={serviceValue}>
+                  <span className={styles.pickupLabel}>{serviceLabel}</span>
+                  <span className={styles.pickupDots} aria-hidden="true" />
+                  <span className={styles.pickupValue}>Да</span>
+                </div>
+              )
+            })}
+
+            {modelPriceLabel && (
+              <div className={styles.priceRow}>
+                <span className={styles.priceLabel}>Цена:</span>
+                <span className={styles.priceValue}>{modelPriceLabel}</span>
+              </div>
+            )}
+
+            {!isTotalStep && (
+              <Button
+                disabled={
+                  !isLocationComplete ||
+                  (isModelStep && !isModelComplete) ||
+                  (isAdditionalStep && !isAdditionalComplete)
                 }
-              }}
-            >
-              {normalizedPath.includes('model') ? 'Дополнительно' : 'Выбрать модель'}
-            </Button>
+                className={styles.sidebarButton}
+                onClick={() => {
+                  if (isModelStep) {
+                    navigate(ROUTES.ORDER_ADDITIONAL_STEP.path)
+                    return
+                  }
+
+                  if (isAdditionalStep) {
+                    navigate(ROUTES.ORDER_TOTAL_STEP.path)
+                    return
+                  }
+
+                  navigate(ROUTES.ORDER_MODEL_STEP.path)
+                }}
+              >
+                {isModelStep
+                  ? 'Дополнительно'
+                  : isAdditionalStep
+                    ? 'Итого'
+                    : 'Выбрать модель'}
+              </Button>
+            )}
           </aside>
         </div>
       </div>
