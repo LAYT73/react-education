@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { ModelCardButton } from '../ModelCardButton'
 import styles from './carModelCard.module.css'
 
 export type CarModelCardProps = {
@@ -19,13 +20,11 @@ export const CarModelCard = ({
   onClick,
 }: CarModelCardProps) => {
   return (
-    <button
-      type="button"
+    <ModelCardButton
+      onClick={onClick}
       className={clsx(styles.card, {
         [styles.selected]: selected,
       })}
-      data-selected={selected}
-      onClick={onClick}
     >
       <div className={styles.content}>
         <div className={styles.header}>
@@ -39,6 +38,6 @@ export const CarModelCard = ({
           <img src={image} alt={name} className={styles.image} />
         </div>
       </div>
-    </button>
+    </ModelCardButton>
   )
 }

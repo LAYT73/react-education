@@ -12,6 +12,7 @@ interface ButtonProps {
   disabled?: boolean
   type?: 'button' | 'submit' | 'reset'
   className?: string
+  isTextButton?: boolean
   textClassName?: string
 }
 
@@ -24,6 +25,7 @@ export function Button({
   type = 'button',
   className,
   textClassName,
+  isTextButton = true,
 }: ButtonProps) {
   return (
     <button
@@ -40,7 +42,10 @@ export function Button({
         className,
       )}
     >
-      <span className={clsx(styles.content, textClassName)}>{children}</span>
+      {!isTextButton && children}
+      {isTextButton && (
+        <span className={clsx(styles.content, textClassName)}>{children}</span>
+      )}
     </button>
   )
 }
