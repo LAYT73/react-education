@@ -26,6 +26,6 @@ const ROUTES: RoutesType = {
   NOTFOUND: {
     path: '*',
   },
-}
+} as const
 
 export { ROUTES, type RoutesType }

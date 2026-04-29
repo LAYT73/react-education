@@ -45,7 +45,7 @@
   display: flex;
   align-items: flex-end;
   gap: 8px;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 }
 
 .pickupLabel,
@@ -71,6 +71,24 @@
   flex: 1;
   border-bottom: 1px dotted var(--color-gray);
   margin-bottom: 3px;
+}
+
+.priceRow {
+  display: flex;
+  gap: 8px;
+  margin: 32px 0;
+}
+
+.priceLabel {
+  font-size: var(--font-4xs);
+  font-weight: 500;
+  color: var(--color-dark);
+}
+
+.priceValue {
+  font-size: var(--font-4xs);
+  font-weight: 400;
+  color: var(--color-dark);
 }
 
 .sidebarButton {

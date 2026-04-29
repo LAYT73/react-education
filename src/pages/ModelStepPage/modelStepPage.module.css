@@ -1,0 +1,22 @@
+.page {
+  display: flex;
+  flex-direction: column;
+}
+
+.filterGroup {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.modelsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 368px);
+  gap: 0;
+}
+
+@media (max-width: 1199px) {
+  .modelsGrid {
+    grid-template-columns: 1fr;
+  }
+}

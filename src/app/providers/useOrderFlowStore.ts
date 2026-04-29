@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { useMemo } from 'react'
-
+import { useShallow } from 'zustand/shallow'
 type OrderStep = 'location' | 'model' | 'additional' | 'total'
 
 type OrderState = {
@@ -8,6 +8,8 @@ type OrderState = {
   pickupPoint: string
   pickupPointId: string | null
   model: string | null
+  modelPriceFrom: number | null
+  modelPriceTo: number | null
   additional: string[]
   totalConfirmed: boolean
 }
@@ -15,7 +17,11 @@ type OrderState = {
 type OrderFlowActions = {
   setCity: (city: string) => void
   setPickupPoint: (pickupPoint: string, pickupPointId?: string | null) => void
-  setModel: (model: string | null) => void
+  setModel: (
+    model: string | null,
+    priceFrom?: number | null,
+    priceTo?: number | null,
+  ) => void
   setAdditional: (additional: string[]) => void
   setTotalConfirmed: (totalConfirmed: boolean) => void
 }
@@ -38,6 +44,8 @@ const initialState: OrderState = {
   pickupPoint: '',
   pickupPointId: null,
   model: null,
+  modelPriceFrom: null,
+  modelPriceTo: null,
   additional: [],
   totalConfirmed: false,
 }
@@ -100,6 +108,8 @@ const useOrderFlowStore = create<OrderFlowStore>((set) => ({
           pickupPoint: '',
           pickupPointId: null,
           model: null,
+          modelPriceFrom: null,
+          modelPriceTo: null,
           additional: [],
           totalConfirmed: false,
         },
@@ -121,17 +131,21 @@ const useOrderFlowStore = create<OrderFlowStore>((set) => ({
           pickupPoint,
           pickupPointId,
           model: null,
+          modelPriceFrom: null,
+          modelPriceTo: null,
           additional: [],
           totalConfirmed: false,
         },
       }
     })
   },
-  setModel: (model) => {
+  setModel: (model, priceFrom = null, priceTo = null) => {
     set((prev) => ({
       state: {
         ...prev.state,
         model,
+        modelPriceFrom: priceFrom,
+        modelPriceTo: priceTo,
         additional: [],
         totalConfirmed: false,
       },
@@ -157,12 +171,17 @@ const useOrderFlowStore = create<OrderFlowStore>((set) => ({
 }))
 
 export const useOrderFlow = (): OrderFlowContextValue => {
-  const state = useOrderFlowStore((store) => store.state)
-  const setCity = useOrderFlowStore((store) => store.setCity)
-  const setPickupPoint = useOrderFlowStore((store) => store.setPickupPoint)
-  const setModel = useOrderFlowStore((store) => store.setModel)
-  const setAdditional = useOrderFlowStore((store) => store.setAdditional)
-  const setTotalConfirmed = useOrderFlowStore((store) => store.setTotalConfirmed)
+  const { state, setCity, setPickupPoint, setModel, setAdditional, setTotalConfirmed } =
+    useOrderFlowStore(
+      useShallow((store) => ({
+        state: store.state,
+        setCity: store.setCity,
+        setPickupPoint: store.setPickupPoint,
+        setModel: store.setModel,
+        setAdditional: store.setAdditional,
+        setTotalConfirmed: store.setTotalConfirmed,
+      })),
+    )
 
   const stepMeta = useMemo(() => selectStepMeta(state), [state])
 
