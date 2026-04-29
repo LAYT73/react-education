@@ -11,15 +11,16 @@ import styles from './orderLayout.module.css'
 
 const ORDER_BREADCRUMBS = [
   { label: 'Местоположение', path: ROUTES.ORDER_FIRST_STEP.path },
-  { label: 'Модель', path: `${ROUTES.ORDER.path}/model` },
-  { label: 'Дополнительно', path: `${ROUTES.ORDER.path}/additional` },
-  { label: 'Итого', path: `${ROUTES.ORDER.path}/total` },
+  { label: 'Модель', path: ROUTES.ORDER_MODEL_STEP.path },
+  { label: 'Дополнительно', path: ROUTES.ORDER_ADDITIONAL_STEP.path },
+  { label: 'Итого', path: ROUTES.ORDER_TOTAL_STEP.path },
 ]
 
 export const OrderLayout = () => {
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const { state, availableStepIndexes, isLocationComplete } = useOrderFlow()
+  const { state, availableStepIndexes, isLocationComplete, isModelComplete } =
+    useOrderFlow()
 
   const normalizedPath = useMemo(() => {
     return pathname.endsWith('/') && pathname.length > 1
@@ -83,12 +84,39 @@ export const OrderLayout = () => {
               </div>
             )}
 
+            {isModelComplete && (
+              <>
+                <div className={styles.pickupRow}>
+                  <span className={styles.pickupLabel}>Модель</span>
+                  <span className={styles.pickupDots} aria-hidden="true" />
+                  <span className={styles.pickupValue}>{state.model}</span>
+                </div>
+
+                <div className={styles.priceRow}>
+                  <span className={styles.priceLabel}>Цена:</span>
+                  <span className={styles.priceValue}>
+                    от {state.modelPriceFrom?.toLocaleString()} до{' '}
+                    {state.modelPriceTo?.toLocaleString()} ₽
+                  </span>
+                </div>
+              </>
+            )}
+
             <Button
-              disabled={!isLocationComplete}
+              disabled={
+                !isLocationComplete ||
+                (normalizedPath.includes('model') && !isModelComplete)
+              }
               className={styles.sidebarButton}
-              onClick={() => navigate(ROUTES.ORDER_MODEL_STEP.path)}
+              onClick={() => {
+                if (normalizedPath.includes('model')) {
+                  navigate(ROUTES.ORDER_ADDITIONAL_STEP.path)
+                } else {
+                  navigate(ROUTES.ORDER_MODEL_STEP.path)
+                }
+              }}
             >
-              Выбрать модель
+              {normalizedPath.includes('model') ? 'Дополнительно' : 'Выбрать модель'}
             </Button>
           </aside>
         </div>
