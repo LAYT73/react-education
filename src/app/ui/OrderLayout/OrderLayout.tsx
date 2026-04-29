@@ -6,6 +6,7 @@ import { Fragment, useMemo } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import { ErrorBoundary } from '../ErrorBoundary'
 import styles from './orderLayout.module.css'
 
 const ORDER_BREADCRUMBS = [
@@ -38,25 +39,31 @@ export const OrderLayout = () => {
 
       <div className={styles.sectionWithDivider}>
         <div className={styles.container}>
-          <Breadcrumbs
-            items={ORDER_BREADCRUMBS}
-            activePath={normalizedPath}
-            isItemDisabled={(index) => index > availableStepIndexes}
-            onItemClick={(item, index) => {
-              if (index > availableStepIndexes) {
-                return
-              }
+          {!normalizedPath.includes('total') ? (
+            <Breadcrumbs
+              items={ORDER_BREADCRUMBS}
+              activePath={normalizedPath}
+              isItemDisabled={(index) => index > availableStepIndexes}
+              onItemClick={(item, index) => {
+                if (index > availableStepIndexes) {
+                  return
+                }
 
-              navigate(item.path)
-            }}
-          />
+                navigate(item.path)
+              }}
+            />
+          ) : (
+            <div style={{ padding: '8px 0' }} />
+          )}
         </div>
       </div>
 
       <div className={styles.container}>
         <div className={styles.layoutGrid}>
           <main className={styles.content}>
-            <Outlet />
+            <ErrorBoundary>
+              <Outlet />
+            </ErrorBoundary>
           </main>
 
           <aside className={styles.sidebar}>
