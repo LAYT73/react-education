@@ -17,6 +17,8 @@ const ORDER_BREADCRUMBS = [
   { label: 'Итого', path: ROUTES.ORDER_TOTAL_STEP.path },
 ]
 
+const ORDER_NUMBER = 'RU58491823'
+
 export const OrderLayout = () => {
   const [isOrderConfirmOpen, setIsOrderConfirmOpen] = useState(false)
   const { pathname } = useLocation()
@@ -27,6 +29,8 @@ export const OrderLayout = () => {
     isLocationComplete,
     isModelComplete,
     isAdditionalComplete,
+    setTotalConfirmed,
+    resetOrder,
   } = useOrderFlow()
 
   const normalizedPath = useMemo(() => {
@@ -86,18 +90,22 @@ export const OrderLayout = () => {
 
       <div className={styles.sectionWithDivider}>
         <div className={styles.container}>
-          <Breadcrumbs
-            items={ORDER_BREADCRUMBS}
-            activePath={normalizedPath}
-            isItemDisabled={(index) => index > availableStepIndexes}
-            onItemClick={(item, index) => {
-              if (index > availableStepIndexes) {
-                return
-              }
+          {isTotalStep && state.totalConfirmed ? (
+            <p className={styles.orderNumber}>Заказ номер {ORDER_NUMBER}</p>
+          ) : (
+            <Breadcrumbs
+              items={ORDER_BREADCRUMBS}
+              activePath={normalizedPath}
+              isItemDisabled={(index) => index > availableStepIndexes}
+              onItemClick={(item, index) => {
+                if (index > availableStepIndexes) {
+                  return
+                }
 
-              navigate(item.path)
-            }}
-          />
+                navigate(item.path)
+              }}
+            />
+          )}
         </div>
       </div>
 
@@ -193,9 +201,16 @@ export const OrderLayout = () => {
                     (isModelStep && !isModelComplete) ||
                     (isAdditionalStep && !isAdditionalComplete)
               }
+              variant={isTotalStep && state.totalConfirmed ? 'orange' : 'primary'}
               className={styles.sidebarButton}
               onClick={() => {
                 if (isTotalStep) {
+                  if (state.totalConfirmed) {
+                    resetOrder()
+                    navigate(ROUTES.ORDER_FIRST_STEP.path)
+                    return
+                  }
+
                   setIsOrderConfirmOpen(true)
                   return
                 }
@@ -213,13 +228,15 @@ export const OrderLayout = () => {
                 navigate(ROUTES.ORDER_MODEL_STEP.path)
               }}
             >
-              {isTotalStep
-                ? 'Заказать'
-                : isModelStep
-                  ? 'Дополнительно'
-                  : isAdditionalStep
-                    ? 'Итого'
-                    : 'Выбрать модель'}
+              {isTotalStep && state.totalConfirmed
+                ? 'Отменить'
+                : isTotalStep
+                  ? 'Заказать'
+                  : isModelStep
+                    ? 'Дополнительно'
+                    : isAdditionalStep
+                      ? 'Итого'
+                      : 'Выбрать модель'}
             </Button>
           </aside>
         </div>
@@ -230,7 +247,13 @@ export const OrderLayout = () => {
           <div className={styles.confirmCard}>
             <h2 className={styles.confirmTitle}>Подтвердить заказ</h2>
             <div className={styles.confirmActions}>
-              <Button width="small" onClick={() => setIsOrderConfirmOpen(false)}>
+              <Button
+                width="small"
+                onClick={() => {
+                  setTotalConfirmed(true)
+                  setIsOrderConfirmOpen(false)
+                }}
+              >
                 Подтвердить
               </Button>
               <Button

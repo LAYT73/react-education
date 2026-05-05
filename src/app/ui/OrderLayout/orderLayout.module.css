@@ -16,6 +16,15 @@
   padding: 32px 0;
 }
 
+.orderNumber {
+  margin: 0;
+  padding: 8px 0;
+  color: var(--color-dark);
+  font-size: var(--font-5xs);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
 .layoutGrid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;

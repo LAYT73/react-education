@@ -20,6 +20,9 @@ export const TotalStepPage = () => {
   return (
     <section className={styles.page}>
       <div className={styles.detailsBlock}>
+        {state.totalConfirmed && (
+          <p className={styles.confirmedTitle}>Ваш заказ подтверждён</p>
+        )}
         <h1 className={styles.title}>{carTitle}</h1>
 
         <p className={styles.plate}>{MOCK_REG_NUMBER}</p>
