@@ -2,7 +2,7 @@ import { useOrderFlow } from '@/app/providers'
 import { ADDITIONAL_SERVICE_OPTIONS, CAR_COLOR_OPTIONS, ROUTES } from '@/shared/consts'
 import { Breadcrumbs, Button } from '@/shared/ui'
 import { Header } from '@/widgets'
-import { Fragment, useMemo } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
@@ -18,6 +18,7 @@ const ORDER_BREADCRUMBS = [
 ]
 
 export const OrderLayout = () => {
+  const [isOrderConfirmOpen, setIsOrderConfirmOpen] = useState(false)
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const {
@@ -85,22 +86,18 @@ export const OrderLayout = () => {
 
       <div className={styles.sectionWithDivider}>
         <div className={styles.container}>
-          {!normalizedPath.includes('total') ? (
-            <Breadcrumbs
-              items={ORDER_BREADCRUMBS}
-              activePath={normalizedPath}
-              isItemDisabled={(index) => index > availableStepIndexes}
-              onItemClick={(item, index) => {
-                if (index > availableStepIndexes) {
-                  return
-                }
+          <Breadcrumbs
+            items={ORDER_BREADCRUMBS}
+            activePath={normalizedPath}
+            isItemDisabled={(index) => index > availableStepIndexes}
+            onItemClick={(item, index) => {
+              if (index > availableStepIndexes) {
+                return
+              }
 
-                navigate(item.path)
-              }}
-            />
-          ) : (
-            <div style={{ padding: '8px 0' }} />
-          )}
+              navigate(item.path)
+            }}
+          />
         </div>
       </div>
 
@@ -188,38 +185,65 @@ export const OrderLayout = () => {
               </div>
             )}
 
-            {!isTotalStep && (
-              <Button
-                disabled={
-                  !isLocationComplete ||
-                  (isModelStep && !isModelComplete) ||
-                  (isAdditionalStep && !isAdditionalComplete)
+            <Button
+              disabled={
+                isTotalStep
+                  ? false
+                  : !isLocationComplete ||
+                    (isModelStep && !isModelComplete) ||
+                    (isAdditionalStep && !isAdditionalComplete)
+              }
+              className={styles.sidebarButton}
+              onClick={() => {
+                if (isTotalStep) {
+                  setIsOrderConfirmOpen(true)
+                  return
                 }
-                className={styles.sidebarButton}
-                onClick={() => {
-                  if (isModelStep) {
-                    navigate(ROUTES.ORDER_ADDITIONAL_STEP.path)
-                    return
-                  }
 
-                  if (isAdditionalStep) {
-                    navigate(ROUTES.ORDER_TOTAL_STEP.path)
-                    return
-                  }
+                if (isModelStep) {
+                  navigate(ROUTES.ORDER_ADDITIONAL_STEP.path)
+                  return
+                }
 
-                  navigate(ROUTES.ORDER_MODEL_STEP.path)
-                }}
-              >
-                {isModelStep
+                if (isAdditionalStep) {
+                  navigate(ROUTES.ORDER_TOTAL_STEP.path)
+                  return
+                }
+
+                navigate(ROUTES.ORDER_MODEL_STEP.path)
+              }}
+            >
+              {isTotalStep
+                ? 'Заказать'
+                : isModelStep
                   ? 'Дополнительно'
                   : isAdditionalStep
                     ? 'Итого'
                     : 'Выбрать модель'}
-              </Button>
-            )}
+            </Button>
           </aside>
         </div>
       </div>
+
+      {isOrderConfirmOpen && (
+        <div className={styles.confirmOverlay} role="dialog" aria-modal="true">
+          <div className={styles.confirmCard}>
+            <h2 className={styles.confirmTitle}>Подтвердить заказ</h2>
+            <div className={styles.confirmActions}>
+              <Button width="small" onClick={() => setIsOrderConfirmOpen(false)}>
+                Подтвердить
+              </Button>
+              <Button
+                width="small"
+                variant="orange"
+                onClick={() => setIsOrderConfirmOpen(false)}
+              >
+                Вернуться
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
