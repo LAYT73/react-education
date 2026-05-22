@@ -33,6 +33,7 @@ type OrderFlowActions = {
   setRentTo: (rentTo: string) => void
   setTariff: (tariff: string) => void
   setTotalConfirmed: (totalConfirmed: boolean) => void
+  resetOrder: () => void
 }
 
 type OrderFlowStore = {
@@ -260,6 +261,9 @@ const useOrderFlowStore = create<OrderFlowStore>((set) => ({
       },
     }))
   },
+  resetOrder: () => {
+    set({ state: initialState })
+  },
 }))
 
 export const useOrderFlow = (): OrderFlowContextValue => {
@@ -274,6 +278,7 @@ export const useOrderFlow = (): OrderFlowContextValue => {
     setRentTo,
     setTariff,
     setTotalConfirmed,
+    resetOrder,
   } = useOrderFlowStore(
     useShallow((store) => ({
       state: store.state,
@@ -286,6 +291,7 @@ export const useOrderFlow = (): OrderFlowContextValue => {
       setRentTo: store.setRentTo,
       setTariff: store.setTariff,
       setTotalConfirmed: store.setTotalConfirmed,
+      resetOrder: store.resetOrder,
     })),
   )
 
@@ -304,6 +310,7 @@ export const useOrderFlow = (): OrderFlowContextValue => {
       setRentTo,
       setTariff,
       setTotalConfirmed,
+      resetOrder,
     }),
     [
       state,
@@ -317,6 +324,7 @@ export const useOrderFlow = (): OrderFlowContextValue => {
       setRentTo,
       setTariff,
       setTotalConfirmed,
+      resetOrder,
     ],
   )
 }

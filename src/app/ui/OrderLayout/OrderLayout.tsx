@@ -17,6 +17,8 @@ const ORDER_BREADCRUMBS = [
   { label: 'Итого', path: ROUTES.ORDER_TOTAL_STEP.path },
 ]
 
+const ORDER_NUMBER = 'RU58491823'
+
 export const OrderLayout = () => {
   const [isOrderConfirmOpen, setIsOrderConfirmOpen] = useState(false)
   const { pathname } = useLocation()
@@ -27,6 +29,8 @@ export const OrderLayout = () => {
     isLocationComplete,
     isModelComplete,
     isAdditionalComplete,
+    setTotalConfirmed,
+    resetOrder,
   } = useOrderFlow()
 
   const normalizedPath = useMemo(() => {
@@ -86,142 +90,158 @@ export const OrderLayout = () => {
 
       <div className={styles.sectionWithDivider}>
         <div className={styles.container}>
-          <Breadcrumbs
-            items={ORDER_BREADCRUMBS}
-            activePath={normalizedPath}
-            isItemDisabled={(index) => index > availableStepIndexes}
-            onItemClick={(item, index) => {
-              if (index > availableStepIndexes) {
-                return
-              }
+          {isTotalStep && state.totalConfirmed ? (
+            <p className={styles.orderNumber}>Заказ номер {ORDER_NUMBER}</p>
+          ) : (
+            <Breadcrumbs
+              items={ORDER_BREADCRUMBS}
+              activePath={normalizedPath}
+              isItemDisabled={(index) => index > availableStepIndexes}
+              onItemClick={(item, index) => {
+                if (index > availableStepIndexes) {
+                  return
+                }
 
-              navigate(item.path)
-            }}
-          />
+                navigate(item.path)
+              }}
+            />
+          )}
         </div>
       </div>
 
-      <div className={styles.container}>
-        <div className={styles.layoutGrid}>
-          <main className={styles.content}>
-            <ErrorBoundary>
-              <Outlet />
-            </ErrorBoundary>
-          </main>
+      <div className={styles.contentSection}>
+        <div className={styles.container}>
+          <div className={styles.layoutGrid}>
+            <main className={styles.content}>
+              <ErrorBoundary>
+                <Outlet />
+              </ErrorBoundary>
+            </main>
 
-          <aside className={styles.sidebar}>
-            <h3 className={styles.sidebarTitle}>Ваш заказ:</h3>
+            <aside className={styles.sidebar}>
+              <h3 className={styles.sidebarTitle}>Ваш заказ:</h3>
 
-            {isLocationComplete && (
-              <div className={styles.pickupRow}>
-                <span className={styles.pickupLabel}>Пункт выдачи</span>
-                <span className={styles.pickupDots} aria-hidden="true" />
-                <span className={styles.pickupValue}>
-                  {state.pickupPoint.split(', ').map((part: string, index: number) => (
-                    <Fragment key={index}>
-                      {part},{index < state.pickupPoint.split(', ').length - 1 && <br />}
-                    </Fragment>
-                  ))}
-                </span>
-              </div>
-            )}
-
-            {isModelComplete && (
-              <>
+              {isLocationComplete && (
                 <div className={styles.pickupRow}>
-                  <span className={styles.pickupLabel}>Модель</span>
+                  <span className={styles.pickupLabel}>Пункт выдачи</span>
                   <span className={styles.pickupDots} aria-hidden="true" />
-                  <span className={styles.pickupValue}>{state.model}</span>
+                  <span className={styles.pickupValue}>
+                    {state.pickupPoint.split(', ').map((part: string, index: number) => (
+                      <Fragment key={index}>
+                        {part},
+                        {index < state.pickupPoint.split(', ').length - 1 && <br />}
+                      </Fragment>
+                    ))}
+                  </span>
                 </div>
-              </>
-            )}
+              )}
 
-            {colorLabel && (
-              <div className={styles.pickupRow}>
-                <span className={styles.pickupLabel}>Цвет</span>
-                <span className={styles.pickupDots} aria-hidden="true" />
-                <span className={styles.pickupValue}>{colorLabel}</span>
-              </div>
-            )}
+              {isModelComplete && (
+                <>
+                  <div className={styles.pickupRow}>
+                    <span className={styles.pickupLabel}>Модель</span>
+                    <span className={styles.pickupDots} aria-hidden="true" />
+                    <span className={styles.pickupValue}>{state.model}</span>
+                  </div>
+                </>
+              )}
 
-            {rentalDuration && (
-              <div className={styles.pickupRow}>
-                <span className={styles.pickupLabel}>Длительность аренды</span>
-                <span className={styles.pickupDots} aria-hidden="true" />
-                <span className={styles.pickupValue}>{rentalDuration}</span>
-              </div>
-            )}
-
-            {state.tariff && (
-              <div className={styles.pickupRow}>
-                <span className={styles.pickupLabel}>Тариф</span>
-                <span className={styles.pickupDots} aria-hidden="true" />
-                <span className={styles.pickupValue}>{tariffLabel}</span>
-              </div>
-            )}
-
-            {state.additional.map((serviceValue) => {
-              const serviceLabel = ADDITIONAL_SERVICE_OPTIONS.find(
-                (option) => option.value === serviceValue,
-              )?.sidebarLabel
-
-              if (!serviceLabel) {
-                return null
-              }
-
-              return (
-                <div className={styles.pickupRow} key={serviceValue}>
-                  <span className={styles.pickupLabel}>{serviceLabel}</span>
+              {colorLabel && (
+                <div className={styles.pickupRow}>
+                  <span className={styles.pickupLabel}>Цвет</span>
                   <span className={styles.pickupDots} aria-hidden="true" />
-                  <span className={styles.pickupValue}>Да</span>
+                  <span className={styles.pickupValue}>{colorLabel}</span>
                 </div>
-              )
-            })}
+              )}
 
-            {modelPriceLabel && (
-              <div className={styles.priceRow}>
-                <span className={styles.priceLabel}>Цена:</span>
-                <span className={styles.priceValue}>{modelPriceLabel}</span>
-              </div>
-            )}
+              {rentalDuration && (
+                <div className={styles.pickupRow}>
+                  <span className={styles.pickupLabel}>Длительность аренды</span>
+                  <span className={styles.pickupDots} aria-hidden="true" />
+                  <span className={styles.pickupValue}>{rentalDuration}</span>
+                </div>
+              )}
 
-            <Button
-              disabled={
-                isTotalStep
-                  ? false
-                  : !isLocationComplete ||
-                    (isModelStep && !isModelComplete) ||
-                    (isAdditionalStep && !isAdditionalComplete)
-              }
-              className={styles.sidebarButton}
-              onClick={() => {
-                if (isTotalStep) {
-                  setIsOrderConfirmOpen(true)
-                  return
+              {state.tariff && (
+                <div className={styles.pickupRow}>
+                  <span className={styles.pickupLabel}>Тариф</span>
+                  <span className={styles.pickupDots} aria-hidden="true" />
+                  <span className={styles.pickupValue}>{tariffLabel}</span>
+                </div>
+              )}
+
+              {state.additional.map((serviceValue) => {
+                const serviceLabel = ADDITIONAL_SERVICE_OPTIONS.find(
+                  (option) => option.value === serviceValue,
+                )?.sidebarLabel
+
+                if (!serviceLabel) {
+                  return null
                 }
 
-                if (isModelStep) {
-                  navigate(ROUTES.ORDER_ADDITIONAL_STEP.path)
-                  return
-                }
+                return (
+                  <div className={styles.pickupRow} key={serviceValue}>
+                    <span className={styles.pickupLabel}>{serviceLabel}</span>
+                    <span className={styles.pickupDots} aria-hidden="true" />
+                    <span className={styles.pickupValue}>Да</span>
+                  </div>
+                )
+              })}
 
-                if (isAdditionalStep) {
-                  navigate(ROUTES.ORDER_TOTAL_STEP.path)
-                  return
-                }
+              {modelPriceLabel && (
+                <div className={styles.priceRow}>
+                  <span className={styles.priceLabel}>Цена:</span>
+                  <span className={styles.priceValue}>{modelPriceLabel}</span>
+                </div>
+              )}
 
-                navigate(ROUTES.ORDER_MODEL_STEP.path)
-              }}
-            >
-              {isTotalStep
-                ? 'Заказать'
-                : isModelStep
-                  ? 'Дополнительно'
-                  : isAdditionalStep
-                    ? 'Итого'
-                    : 'Выбрать модель'}
-            </Button>
-          </aside>
+              <Button
+                disabled={
+                  isTotalStep
+                    ? false
+                    : !isLocationComplete ||
+                      (isModelStep && !isModelComplete) ||
+                      (isAdditionalStep && !isAdditionalComplete)
+                }
+                variant={isTotalStep && state.totalConfirmed ? 'orange' : 'primary'}
+                className={styles.sidebarButton}
+                onClick={() => {
+                  if (isTotalStep) {
+                    if (state.totalConfirmed) {
+                      resetOrder()
+                      navigate(ROUTES.ORDER_FIRST_STEP.path)
+                      return
+                    }
+
+                    setIsOrderConfirmOpen(true)
+                    return
+                  }
+
+                  if (isModelStep) {
+                    navigate(ROUTES.ORDER_ADDITIONAL_STEP.path)
+                    return
+                  }
+
+                  if (isAdditionalStep) {
+                    navigate(ROUTES.ORDER_TOTAL_STEP.path)
+                    return
+                  }
+
+                  navigate(ROUTES.ORDER_MODEL_STEP.path)
+                }}
+              >
+                {isTotalStep && state.totalConfirmed
+                  ? 'Отменить'
+                  : isTotalStep
+                    ? 'Заказать'
+                    : isModelStep
+                      ? 'Дополнительно'
+                      : isAdditionalStep
+                        ? 'Итого'
+                        : 'Выбрать модель'}
+              </Button>
+            </aside>
+          </div>
         </div>
       </div>
 
@@ -230,7 +250,13 @@ export const OrderLayout = () => {
           <div className={styles.confirmCard}>
             <h2 className={styles.confirmTitle}>Подтвердить заказ</h2>
             <div className={styles.confirmActions}>
-              <Button width="small" onClick={() => setIsOrderConfirmOpen(false)}>
+              <Button
+                width="small"
+                onClick={() => {
+                  setTotalConfirmed(true)
+                  setIsOrderConfirmOpen(false)
+                }}
+              >
                 Подтвердить
               </Button>
               <Button
